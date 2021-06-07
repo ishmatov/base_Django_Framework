@@ -3,3 +3,4 @@ db.sqlite3
 media
 __pycache__
 /products_1/templates/products/test-context.html
+/media/
