@@ -60,7 +60,7 @@
                                 <div class="card h-100">
                                     <a href="#">
                                         <img class="card-img-top"
-                                             src="/media/{{ product.image }}"
+                                             src="{% static '/vendor/img/' %}{{ product.image.url }}"
                                              alt="img">
                                     </a>
                                     <div class="card-body">
