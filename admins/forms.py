@@ -1,6 +1,7 @@
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 from django import forms
+from django.forms import ModelForm
 
 
 class UserAdminRegisterForm(UserRegisterForm):
@@ -23,6 +24,14 @@ class UserAdminProfileForm(UserProfileForm):
             'readonly': False
         }))
     email = forms.CharField(widget=forms.EmailInput(
+        attrs={
+            'class': 'form-control py-4',
+            'readonly': False
+        }))
+
+
+class CategoryNewAdminForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control py-4',
             'readonly': False
