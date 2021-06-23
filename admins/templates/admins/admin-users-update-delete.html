@@ -5,6 +5,25 @@
     <main>
         <div class="container-fluid">
             <h1 class="mt-4">Редактирование пользователя | {{ selected_user.username }}</h1>
+                {% if messages or form.errors %}
+                    <div class="alert
+                    {% if messages %} alert-success {% else %} alert-warning {% endif %}
+                    alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                        {% if messages %}
+                            {%  for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% else %}
+                            {%  for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+
             <div class="card-body">
                 <form action="{% url 'admins:admin_users_update' selected_user.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}

@@ -28,6 +28,7 @@ def admin_users_create(request):
         form = UserAdminRegisterForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Пользователь успешно создан')
             return HttpResponseRedirect(reverse('admins:admin_users'))
     else:
         form = UserAdminRegisterForm()
@@ -42,7 +43,7 @@ def admin_users_update(request, id):
         form = UserAdminProfileForm(data=request.POST, files=request.FILES, instance=selected_user)
         if form.is_valid():
             form.save()
-            # messages.success(request, 'Данные успешно сохранены')
+            messages.success(request, 'Данные успешно сохранены')
             return HttpResponseRedirect(reverse('admins:admin_users'))
     else:
         form = UserAdminProfileForm(instance=selected_user)
