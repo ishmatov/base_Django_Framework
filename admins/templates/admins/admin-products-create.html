@@ -3,7 +3,7 @@
 {% block content %}
     <main>
         <div class="container-fluid">
-            <h1 class="mt-4">Создание пользователя</h1>
+            <h1 class="mt-4">Добавить новый товар</h1>
             {% if messages or form.errors %}
                 <div class="alert
                 {% if messages %} alert-success {% else %} alert-warning {% endif %}
@@ -22,24 +22,26 @@
                     </button>
                 </div>
             {% endif %}
-            <form action="{% url 'admins:admin_users_create' %}" method="post" enctype="multipart/form-data">
+            <form action="{% url 'admins:admin_products_create' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="small mb-1" for="{{ form.first_name.id_for_label }}">Имя</label>
-                            {{ form.first_name }}
+                            <label class="small mb-1" for="{{ form.name.id_for_label }}">Название</label>
+                            {{ form.name }}
                         </div>
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="small mb-1" for="{{ form.last_name.id_for_label }}">Фамилия</label>
-                            {{ form.last_name }}
+                            <label class="small mb-1" for="{{ form.description.id_for_label }}">Описание</label>
+                            {{ form.description }}
                         </div>
                     </div>
                 </div>
                 <div class="form-row mb-2">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="custom-file">
                             {{ form.image }}
                             <label class="custom-file-label" for="{{ form.image.id_for_label }}">
@@ -48,27 +50,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row mb-2">
                     <div class="col-lg-6">
-                        <label class="small mb-1" for="{{ form.username.id_for_label }}">Имя пользователя</label>
-                        {{ form.username }}
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="small mb-1" for="{{ form.email.id_for_label }}">Адрес электронной
-                            почты</label>
-                        {{ form.email }}
+                        <label class="small mb-1" for="{{ form.price.id_for_label }}">Цена</label>
+                        {{ form.price }}
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row mb-2">
                     <div class="col-lg-6">
-                        <label class="small mb-1" for="{{ form.password1.id_for_label }}">Пароль</label>
-                        {{ form.password1 }}
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="small mb-1" for="{{ form.password2.id_for_label }}">Повторите пароль</label>
-                        {{ form.password2 }}
+                        <label class="small mb-1" for="{{ form.quantity.id_for_label }}">Кол-во</label>
+                        {{ form.quantity }}
                     </div>
                 </div>
+                <div class="form-row mb-2">
+                    <div class="col-lg-6">
+                        <label class="small mb-1" for="{{ form.category.id_for_label }}">Категория</label>
+                        {{ form.category }}
+                    </div>
+                </div>
+{#                <div class="form-row">#}
+{#                    <div class="col-lg-6">#}
+{#                        <label class="small mb-1" for="{{ form.is_active.id_for_label }}">Активный товар</label>#}
+{#                        {{ form.is_active }}#}
+{#                    </div>#}
+{#                </div>#}
                 <div class="form-row">
                     <div class="col-lg-12" style="margin-top: 33px;">
                         <input class="btn btn-info btn-block" type="submit" value="Сохранить">
