@@ -1,4 +1,5 @@
 from users.forms import UserRegisterForm, UserProfileForm
+from products.models import ProductCategory, Product
 from users.models import User
 from django import forms
 from django.forms import ModelForm
@@ -34,5 +35,18 @@ class CategoryNewAdminForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control py-4',
-            'readonly': False
+            'placeholder': 'Введите название категории'
         }))
+    description = forms.CharField(widget=forms.Textarea(
+        attrs={
+            'class': 'form-control py-4',
+            'placeholder': 'Введите краткое описание категории'
+        }), required=False)
+    is_active = forms.BooleanField(initial=True)
+
+    class Meta:
+        model = ProductCategory
+        fields = ('name', 'description', 'is_active')
+
+
+
