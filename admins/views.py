@@ -1,9 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
+from django.contrib import messages
 from users.models import User
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
-from admins.forms import CategoryNewAdminForm
+from admins.forms import CategoryNewAdminForm, ProductAdminForm
 
-from products.models import ProductCategory
+from products.models import ProductCategory, Product
 
 from django.urls import reverse
 from django.contrib.auth.decorators import user_passes_test
@@ -103,3 +104,53 @@ def admin_categories_delete(request, id):
     category.is_active = False
     category.save()
     return HttpResponseRedirect(reverse('admins:admin_categories'))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products(request):
+    context = {'title': 'GeekShop - Админ | Товары', 'products': Product.objects.all()}
+    return render(request, 'admins/admin-products-read.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products_create(request):
+    if request.method == 'POST':
+        form = ProductAdminForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.is_active = True
+            form.save()
+            return HttpResponseRedirect(reverse('admins:admin_products'))
+        else:
+            print(form.errors)
+    else:
+        form = ProductAdminForm()
+    context = {'title': 'GeekShop - Админ | Новый товар', 'form': form}
+    return render(request, 'admins/admin-products-create.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products_update(request, id):
+    selected_product = Product.objects.get(id=id)
+    if request.method == 'POST':
+        form = ProductAdminForm(data=request.POST, files=request.FILES, instance=selected_product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Данные успешно сохранены')
+            return HttpResponseRedirect(reverse('admins:admin_products'))
+        else:
+            print(form.errors)
+    else:
+        form = ProductAdminForm(instance=selected_product)
+    context = {'title': 'GeekShop - Admin | Обновление товара',
+               'form': form,
+               'selected_product': selected_product,
+               }
+    return render(request, 'admins/admin-products-update-delete.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products_delete(request, id):
+    product = Product.objects.get(id=id)
+    product.is_active = False
+    product.save()
+    return HttpResponseRedirect(reverse('admins:admin_products'))

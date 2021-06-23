@@ -49,4 +49,29 @@ class CategoryNewAdminForm(ModelForm):
         fields = ('name', 'description', 'is_active')
 
 
+class ProductAdminForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control py-4',
+            'placeholder': 'Введите краткое описание категории'
+        }),
+        max_length=256)
+    image = forms.ImageField(widget=forms.FileInput(
+        attrs={
+            'class': 'custom-file-input'
+        }),
+        required=False)
+    description = forms.CharField(widget=forms.Textarea(
+        attrs={
+            'class': 'form-control py-4',
+            'placeholder': 'Введите краткое описание категории'
+        }),
+        max_length=64, required=False)
+    price = forms.DecimalField(min_value=0, max_digits=8, decimal_places=2)
+    quantity = forms.IntegerField(min_value=0)
+    category = forms.ModelChoiceField(queryset=ProductCategory.objects.all(), empty_label=None)
+    is_active = forms.BooleanField(initial=True, required=False)
 
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'image', 'price', 'quantity', 'category', 'is_active')
